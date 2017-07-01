@@ -1,0 +1,13 @@
+//Interrupt service routine implementing a fourth order IIR filter
+void ISR_AIC()
+{
+	int i;
+	double input = mono_read_16Bit();
+
+	x[0] = x[1] + b[0]*input;
+	for (i=1;i<=N;i++)
+	{
+		x[i] = x[i+1] + (b[i]*input)-(a[i]*x[0]);
+	}
+	mono_write_16Bit((short)x[0]);
+}
